@@ -1,11 +1,11 @@
 # to calculate distance from subcatchment to outfall
 #%%
 import os
-os.chdir("..")
-
-#%%
 import pandas as pd
 import numpy as np
+
+os.chdir("..")
+
 # import data from csv
 conduit = pd.read_csv('conduit.csv', header=0)
 subcatchment = pd.read_csv('subcatchment.csv', header=0)
