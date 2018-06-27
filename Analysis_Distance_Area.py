@@ -46,8 +46,31 @@ gdf['LID_ratio'] = gdf['LID_area']/gdf['Area']*100
 gdf = gdf.sort_values('Out_Length')
 print(gdf)
 
+
+#%%
+# calculat correlation coefficient between distance to origin and LID ratio
+# shift origin and pick max/min one
+l = list(gdf['Out_Length'])
+ratio = np.array(gdf['LID_ratio'])
+corr = [np.corrcoef(ratio, abs(np.array(l)-i))[0,1] for i in l]
+min_x, min_y = l[corr.index(min(corr))], min(corr)
+
+# plot datas
+plt.scatter(min_x, min_y, marker='o', s=40, c='red')
+plt.plot(l,corr, marker='.')
+plt.text(min_x-50, min_y-0.05, s="min r="+str(round(min_y,2)))
+
+# customer setting
+plt.title('Correlation coeffcient between LID ratio\n and distance under different origin')
+plt.xlabel('Distance between origin and B $(m)$')
+plt.ylabel('Correlation coeffcient')
+plt.axis([-20,620,-0.6,0.02])
+plt.show()
+
 #%%
 import seaborn as sns
+# gdf['Shift_L'] = np.array(l)-min_x
+
 plt.subplot(2,1,1)
 sns.regplot(x='Out_Length', y='LID_area', data=gdf, order=1)
 plt.xlabel('Distance to Outfall B $(m)$')
@@ -61,5 +84,5 @@ plt.ylabel('LID ratio $(\%)$')
 plt.title('Relationship between LID ration and distance to outfall')
 
 plt.tight_layout()
-# plt.show()
-plt.savefig('C:\\TV\\Results\\Distance_Area.jpg')
+plt.show()
+# plt.savefig('C:\\TV\\Results\\Distance_Area.jpg')
