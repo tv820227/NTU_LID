@@ -4,7 +4,7 @@ import os
 import pandas as pd
 import numpy as np
 
-os.chdir("..")
+os.chdir("C:\\TV\\Results")
 
 # import data from csv
 conduit = pd.read_csv('conduit.csv', header=0)
@@ -14,12 +14,13 @@ subcatchment = pd.read_csv('subcatchment.csv', header=0)
 table = pd.merge(subcatchment, conduit, left_on='Outlet', right_on='From Node', how='outer')
 
 # pick columns what I want and modify names of columns
-table = table[['Name_x', 'From Node', 'To Node', 'Length']]
-table.columns = ['Sub', 'From_Node', 'To_Node', 'Length']
+table = table[['Name_x', 'From Node', 'To Node', 'Length', 'Area']]
+table.columns = ['Sub', 'From_Node', 'To_Node', 'Length', 'Area']
 
 # because outfall B is not in node, it will fill NaN after merging, we should fill B back
 table[['From_Node', 'To_Node']] = table[['From_Node', 'To_Node']].fillna(value='B')
 table['Length'] = table['Length'].fillna(value=0)
+table['Area'] = table['Area']*10**4
 
 #%%
 # to calculate the length from subcatchment to out fall B
