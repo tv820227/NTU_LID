@@ -56,6 +56,7 @@ corr = [np.corrcoef(ratio, abs(np.array(l)-i))[0,1] for i in l]
 min_x, min_y = l[corr.index(min(corr))], min(corr)
 
 # plot datas
+fig1 = plt.figure(1)
 plt.scatter(min_x, min_y, marker='o', s=40, c='red')
 plt.plot(l,corr, marker='.')
 plt.text(min_x-50, min_y-0.05, s="min r="+str(round(min_y,2)))
@@ -65,12 +66,13 @@ plt.title('Correlation coeffcient between LID ratio\n and distance under differe
 plt.xlabel('Distance between origin and B $(m)$')
 plt.ylabel('Correlation coeffcient')
 plt.axis([-20,620,-0.6,0.02])
-plt.show()
+# plt.show()
 
 #%%
 import seaborn as sns
 # gdf['Shift_L'] = np.array(l)-min_x
 
+fig2 = plt.figure(2)
 plt.subplot(2,1,1)
 sns.regplot(x='Out_Length', y='LID_area', data=gdf, order=1)
 plt.xlabel('Distance to Outfall B $(m)$')
